@@ -12,23 +12,23 @@ public class Player : MonoBehaviour
     private bool _isWalking = false;
     private Vector3 _lastInteractDirection;
 
+    private void Start()
+    {
+        _gameInput.OnInteractAction += _gameInput_OnInteractAction;
+    }
+
+
     private void Update()
     {
         HandleMovement();
         HandleInteractions();
     }
-
-    public bool IsWalking()
-    {
-        return _isWalking;
-    }
-
-    private void HandleInteractions()
+    private void _gameInput_OnInteractAction(object sender, System.EventArgs e)
     {
         Vector2 inputVector = _gameInput.GetMovementVectorNormalized();
         Vector3 moveDirection = new Vector3(inputVector.x, 0.0f, inputVector.y);
 
-        if(moveDirection != Vector3.zero)
+        if (moveDirection != Vector3.zero)
         {
             _lastInteractDirection = moveDirection;
         }
@@ -45,6 +45,16 @@ public class Player : MonoBehaviour
         {
             Debug.Log("-");
         }
+    }
+
+    public bool IsWalking()
+    {
+        return _isWalking;
+    }
+
+    private void HandleInteractions()
+    {
+        
     }
     private void HandleMovement()
     {
