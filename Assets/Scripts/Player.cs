@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using UnityEngine;
 
-public class Player : MonoBehaviour
+public class Player : MonoBehaviour, IKitchenObjectParent
 {
     #region singleton
     private static Player instance;
@@ -20,10 +20,12 @@ public class Player : MonoBehaviour
     [SerializeField] private float _playerMoveSpeed = 7.0f;
     [SerializeField] private GameInput _gameInput;
     [SerializeField] private LayerMask _counterLayerMask;
+    [SerializeField] private Transform _kitchenObjectHoldPoint;
 
     private bool _isWalking = false;
     private Vector3 _lastInteractDirection;
     private ClearCounter _selectedCounter;
+    private KitchenObject _kitchenObject;
 
     private void Awake()
     {
@@ -46,13 +48,10 @@ public class Player : MonoBehaviour
     }
     private void _gameInput_OnInteractAction(object sender, System.EventArgs e)
     {
-        _selectedCounter?.Interact();
+        _selectedCounter?.Interact(this);
     }
 
-    public bool IsWalking()
-    {
-        return _isWalking;
-    }
+    public bool IsWalking() => _isWalking;
 
     private void HandleInteractions()
     {
@@ -135,4 +134,14 @@ public class Player : MonoBehaviour
         float rotationSpeed = 10.0f;
         transform.forward = Vector3.Slerp(transform.forward, moveDirection, Time.deltaTime * rotationSpeed);
     }
+
+    public Transform GetKitchenObjectFollowTransform() => _kitchenObjectHoldPoint;
+
+    public void SetKitchenObject(KitchenObject kitchenObject) => _kitchenObject = kitchenObject;
+
+    public KitchenObject GetKitchenObject() => _kitchenObject;
+
+    public void ClearKitchenObject() => _kitchenObject = null;
+
+    public bool HasKithcenObject() => _kitchenObject != null;
 }

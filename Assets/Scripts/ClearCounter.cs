@@ -2,48 +2,33 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ClearCounter : MonoBehaviour
+public class ClearCounter : MonoBehaviour, IKitchenObjectParent
 {
-    [SerializeField] private Transform _counterTopPoint; 
+    [SerializeField] private Transform _counterTopPoint;
     [SerializeField] private KitchenObjectScriptableObject _kitchenObjectSriptableObject;
 
     private KitchenObject _kitchenObject;
 
-    public void Interact()
+    public void Interact(Player player)
     {
         if (_kitchenObject == null)
         {
             Transform kitchenObjectTransform = Instantiate(_kitchenObjectSriptableObject.prefab, _counterTopPoint);
-            kitchenObjectTransform.GetComponent<KitchenObject>().SetClearCounter(this);
+            kitchenObjectTransform.GetComponent<KitchenObject>().SetKitchenObjectParent(this);
         }
         else
         {
-            Debug.Log(_kitchenObject.GetClearCounter());
+            _kitchenObject.SetKitchenObjectParent(player);
         }        
     }
 
-    public Transform GetKitchenObjectFollowTransform()
-    {
-        return _counterTopPoint;
-    }
+    public Transform GetKitchenObjectFollowTransform() => _counterTopPoint;
 
-    public void SetKitchenObject(KitchenObject kitchenObject)
-    {
-        _kitchenObject = kitchenObject;
-    }
+    public void SetKitchenObject(KitchenObject kitchenObject) => _kitchenObject = kitchenObject;
 
-    public KitchenObject GetKitchenObject()
-    {
-        return _kitchenObject;
-    }
+    public KitchenObject GetKitchenObject() => _kitchenObject;
 
-    public void ClearKitchenObject()
-    {
-        _kitchenObject = null;
-    }
+    public void ClearKitchenObject() => _kitchenObject = null;
 
-    public bool HasKithcenObject()
-    {
-        return _kitchenObject != null;
-    }
+    public bool HasKithcenObject() => _kitchenObject != null;
 }
