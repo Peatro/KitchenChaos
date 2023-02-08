@@ -188,6 +188,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _counterTopPoint: {fileID: 8701124783803405857}
+  _cuttingRecipeScriptsArray:
+  - {fileID: 11400000, guid: 8b93ecebf2869cc42bb5d16997d11ea7, type: 2}
+  - {fileID: 11400000, guid: 71b5977980abdb3418160cc5dc12cedb, type: 2}
+  - {fileID: 11400000, guid: 5835774de0796a44d82f9fdc190b9c10, type: 2}
   _cutKitchenObjectSO: {fileID: 11400000, guid: f9069be826235414e80b015b42341327,
     type: 2}
 --- !u!4 &500224345448481848 stripped
