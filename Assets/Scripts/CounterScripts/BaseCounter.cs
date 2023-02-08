@@ -15,5 +15,5 @@ public class BaseCounter : MonoBehaviour, IKitchenObjectParent
     public void SetKitchenObject(KitchenObject kitchenObject) => _kitchenObject = kitchenObject;
     public KitchenObject GetKitchenObject() => _kitchenObject;
     public void ClearKitchenObject() => _kitchenObject = null;
-    public bool HasKithcenObject() => _kitchenObject != null;
+    public bool HasKitchenObject() => _kitchenObject != null;
 }
