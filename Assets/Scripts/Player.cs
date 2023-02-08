@@ -39,6 +39,7 @@ public class Player : MonoBehaviour, IKitchenObjectParent
     private void Start()
     {
         _gameInput.OnInteractAction += _gameInput_OnInteractAction;
+        _gameInput.OnInteractAlternateAction += _gameInput_OnInteractAlternateAction;
     }
 
     private void Update()
@@ -49,6 +50,10 @@ public class Player : MonoBehaviour, IKitchenObjectParent
     private void _gameInput_OnInteractAction(object sender, System.EventArgs e)
     {
         _selectedCounter?.Interact(this);
+    }
+    private void _gameInput_OnInteractAlternateAction(object sender, EventArgs e)
+    {
+        _selectedCounter?.InteractAlternate(this);
     }
 
     public bool IsWalking() => _isWalking;
@@ -84,16 +89,6 @@ public class Player : MonoBehaviour, IKitchenObjectParent
         }
     }
 
-    private void SetSelectedCounter(BaseCounter selectedCounter)
-    {
-        this._selectedCounter = selectedCounter;
-
-        OnSelectedCounterChanged?.Invoke(this, new OnSelectedCounterChangedEventArgs
-        {
-            selectedCounter = _selectedCounter
-        });
-    }
-
     private void HandleMovement()
     {
         Vector2 inputVector = _gameInput.GetMovementVectorNormalized();
@@ -107,7 +102,7 @@ public class Player : MonoBehaviour, IKitchenObjectParent
         if (!canMove)
         {
             Vector3 moveDirectionX = new Vector3(moveDirection.x, 0.0f, 0.0f).normalized;
-            canMove = !Physics.CapsuleCast(transform.position, transform.position + Vector3.up * playerHeight, playerRadius, moveDirectionX, moveDistance);
+            canMove = moveDirection.x != 0 && !Physics.CapsuleCast(transform.position, transform.position + Vector3.up * playerHeight, playerRadius, moveDirectionX, moveDistance);
 
             if (canMove)
             {
@@ -116,7 +111,7 @@ public class Player : MonoBehaviour, IKitchenObjectParent
             else
             {
                 Vector3 moveDirectionZ = new Vector3(0.0f, 0.0f, moveDirection.z).normalized;
-                canMove = !Physics.CapsuleCast(transform.position, transform.position + Vector3.up * playerHeight, playerRadius, moveDirectionZ, moveDistance);
+                canMove = moveDirection.x != 0 && !Physics.CapsuleCast(transform.position, transform.position + Vector3.up * playerHeight, playerRadius, moveDirectionZ, moveDistance);
 
                 if (canMove)
                 {
@@ -133,6 +128,15 @@ public class Player : MonoBehaviour, IKitchenObjectParent
 
         float rotationSpeed = 10.0f;
         transform.forward = Vector3.Slerp(transform.forward, moveDirection, Time.deltaTime * rotationSpeed);
+    }
+    private void SetSelectedCounter(BaseCounter selectedCounter)
+    {
+        this._selectedCounter = selectedCounter;
+
+        OnSelectedCounterChanged?.Invoke(this, new OnSelectedCounterChangedEventArgs
+        {
+            selectedCounter = _selectedCounter
+        });
     }
 
     public Transform GetKitchenObjectFollowTransform() => _kitchenObjectHoldPoint;
