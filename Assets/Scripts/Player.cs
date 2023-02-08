@@ -14,7 +14,7 @@ public class Player : MonoBehaviour, IKitchenObjectParent
     public event EventHandler<OnSelectedCounterChangedEventArgs> OnSelectedCounterChanged;
     public class OnSelectedCounterChangedEventArgs : EventArgs
     {
-        public ClearCounter selectedCounter;
+        public BaseCounter selectedCounter;
     }
 
     [SerializeField] private float _playerMoveSpeed = 7.0f;
@@ -24,7 +24,7 @@ public class Player : MonoBehaviour, IKitchenObjectParent
 
     private bool _isWalking = false;
     private Vector3 _lastInteractDirection;
-    private ClearCounter _selectedCounter;
+    private BaseCounter _selectedCounter;
     private KitchenObject _kitchenObject;
 
     private void Awake()
@@ -66,11 +66,11 @@ public class Player : MonoBehaviour, IKitchenObjectParent
         float interactDistance = 2.0f;
         if (Physics.Raycast(transform.position, _lastInteractDirection, out RaycastHit raycastHit, interactDistance, _counterLayerMask))
         {
-            if (raycastHit.transform.TryGetComponent(out ClearCounter clearCounter))
+            if (raycastHit.transform.TryGetComponent(out BaseCounter baseCounter))
             {
-                if (clearCounter != _selectedCounter)
+                if (baseCounter != _selectedCounter)
                 {
-                    SetSelectedCounter(clearCounter);
+                    SetSelectedCounter(baseCounter);
                 }
             }
             else
@@ -84,7 +84,7 @@ public class Player : MonoBehaviour, IKitchenObjectParent
         }
     }
 
-    private void SetSelectedCounter(ClearCounter selectedCounter)
+    private void SetSelectedCounter(BaseCounter selectedCounter)
     {
         this._selectedCounter = selectedCounter;
 
@@ -136,12 +136,8 @@ public class Player : MonoBehaviour, IKitchenObjectParent
     }
 
     public Transform GetKitchenObjectFollowTransform() => _kitchenObjectHoldPoint;
-
     public void SetKitchenObject(KitchenObject kitchenObject) => _kitchenObject = kitchenObject;
-
     public KitchenObject GetKitchenObject() => _kitchenObject;
-
     public void ClearKitchenObject() => _kitchenObject = null;
-
     public bool HasKithcenObject() => _kitchenObject != null;
 }
