@@ -17,10 +17,10 @@ public class CuttingCounterVisual : MonoBehaviour
 
     private void Start()
     {
-        _cuttingCounter.OnCut += _cuttingCounter_OnCut;
+        _cuttingCounter.OnCut += CuttingCounter_OnCut;
     }
 
-    private void _cuttingCounter_OnCut(object sender, System.EventArgs e)
+    private void CuttingCounter_OnCut(object sender, System.EventArgs e)
     {
         _animator.SetTrigger(CUT);
     }

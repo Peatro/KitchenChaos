@@ -10,20 +10,20 @@ public class KitchenObject : MonoBehaviour
 
     public KitchenObjectScriptableObject GetKitchenOjectScriptableObject() => _kitchenObjectScriptableObject;
 
-    public void SetKitchenObjectParent(IKitchenObjectParent kitchenOBjectParent)
+    public void SetKitchenObjectParent(IKitchenObjectParent kitchenObjectParent)
     {
         _kitchenObjectParent?.ClearKitchenObject();
 
-        _kitchenObjectParent = kitchenOBjectParent;
+        _kitchenObjectParent = kitchenObjectParent;
 
-        if(kitchenOBjectParent.HasKitchenObject())
+        if(kitchenObjectParent.HasKitchenObject())
         {
             Debug.LogError("IKitchenObjectParent already has a KitchenObject!");
         }
 
-        kitchenOBjectParent.SetKitchenObject(this);
+        kitchenObjectParent.SetKitchenObject(this);
 
-        transform.parent = kitchenOBjectParent.GetKitchenObjectFollowTransform();
+        transform.parent = kitchenObjectParent.GetKitchenObjectFollowTransform();
         transform.localPosition = Vector3.zero;
     }
 
