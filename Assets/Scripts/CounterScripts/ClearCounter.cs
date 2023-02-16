@@ -18,7 +18,27 @@ public class ClearCounter : BaseCounter
         else
         {
             //Объект на столе
-            if(!player.HasKitchenObject())
+            if(player.HasKitchenObject())
+            {
+                if (player.GetKitchenObject().TryGetPlate(out PlateKitchenObject plateKitchenObject))
+                {
+                    if (plateKitchenObject.TryAddIngredient(GetKitchenObject().GetKitchenOjectScriptableObject()))
+                    {
+                        GetKitchenObject().DestroySelf();
+                    }
+                }
+                else
+                {
+                    if(GetKitchenObject().TryGetPlate(out plateKitchenObject))
+                    {
+                        if(plateKitchenObject.TryAddIngredient(player.GetKitchenObject().GetKitchenOjectScriptableObject()))
+                        {
+                            player.GetKitchenObject().DestroySelf();
+                        }
+                    }
+                }
+            }
+            else
             {
                 GetKitchenObject().SetKitchenObjectParent(player);
             }
