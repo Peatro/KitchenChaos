@@ -44,7 +44,11 @@ public class PlateKitchenObject : KitchenObject
                 kitchenObjectSO = kitchenObjectScriptableObject
             });
             return true;
-        }
-        
+        }        
+    }
+
+    public List<KitchenObjectScriptableObject> GetKitchenObjectScriptableObjectList()
+    {
+        return _kitchenObjectScriptableObjectsList;
     }
 }
